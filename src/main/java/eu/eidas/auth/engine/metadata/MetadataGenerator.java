@@ -62,6 +62,7 @@ import java.nio.charset.Charset;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.opensaml.common.SAMLObjectBuilder;
 
 /**
  * Metadata generator class
@@ -183,6 +184,11 @@ public class MetadataGenerator {
             idpSSODescriptor.getKeyDescriptors().add(getKeyDescriptor(keyInfoGeneratorFactory, params.encryptionCredential, UsageType.ENCRYPTION));
         }
         idpSSODescriptor.addSupportedProtocol(params.idpSamlProtocol);
+        //binding et endPoint
+        for(String bind: params.getProtocolBinding()){
+            idpSSODescriptor.getSingleSignOnServices().add(getSingleSignOnService(params.getEndPoint(),null,bind));
+        }
+        
         fillNameIDFormat(idpSSODescriptor);
         if(params.getIdpEngine()!=null){
             if(params.getIdpEngine().getExtensionProcessor()!=null &&params.getIdpEngine().getExtensionProcessor().getFormat()== SAMLExtensionFormat.EIDAS10){
@@ -389,6 +395,21 @@ public class MetadataGenerator {
         }
     }
 
+    /**
+     * fabrique le endPoint pour le signon
+     * @param entityBaseURL
+     * @param entityAlias
+     * @param binding
+     * @return 
+     */
+    protected SingleSignOnService getSingleSignOnService(String endpointURL, String entityAlias, String binding) {
+        SAMLObjectBuilder<SingleSignOnService> builder = (SAMLObjectBuilder<SingleSignOnService>) builderFactory.getBuilder(SingleSignOnService.DEFAULT_ELEMENT_NAME);
+        SingleSignOnService signonService = builder.buildObject();
+        signonService.setLocation(endpointURL);
+        signonService.setBinding(binding);
+        return signonService;
+    }
+    
     public void addSPRole() throws SAMLEngineException {
         try {
             if (spSSODescriptor == null) {

@@ -62,6 +62,15 @@ public class MetadataConfigParams {
     long validityDuration=ONE_DAY_DURATION;
     Contact supportContact;
     Contact technicalContact;
+    String endPoint;
+
+    public String getEndPoint() {
+        return endPoint;
+    }
+
+    public void setEndPoint(String endPoint) {
+        this.endPoint = endPoint;
+    }
 
     public boolean isWantAssertionsSigned() {
         return wantAssertionsSigned;

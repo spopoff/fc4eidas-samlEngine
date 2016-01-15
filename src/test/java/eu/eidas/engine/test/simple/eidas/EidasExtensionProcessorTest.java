@@ -11,7 +11,7 @@ public class EidasExtensionProcessorTest {
 
     private static final String TEST_ATTRIBUTE_FULL_NAME="http://eidas.europa.eu/attributes/EidasAdditionalAttribute";
     private static final String TEST_ATTRIBUTE_INVALID="not found";
-    @Test
+    //@Test
     public void testGetDynamicAtributeType() throws Exception {
         EidasAttributesTypes eat = EidasExtensionProcessor.getDynamicAtributeType(TEST_ATTRIBUTE_FULL_NAME);
         assertNotNull(eat);

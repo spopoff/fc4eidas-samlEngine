@@ -36,7 +36,7 @@ public class SimpleBaseTest extends TestCase {
     /**
      * Test SAML engine correct configuration name.
      */
-    @Test
+    //@Test
     public final void testSamlEngineCorrectInit() {
         try {
             Assert.assertNotNull(EIDASSAMLEngine.createSAMLEngine("CONF1"));
@@ -48,7 +48,7 @@ public class SimpleBaseTest extends TestCase {
     /**
      * Test SAML engine error configuration name.
      */
-    @Test
+    //@Test
     public final void testSamlEngineErrorNameConf() {
         try {
             Assert.assertNull(EIDASSAMLEngine.createSAMLEngine("CONF_ERROR"));
@@ -61,7 +61,7 @@ public class SimpleBaseTest extends TestCase {
     /**
      * Test SAML engine error name null.
      */
-    @Test
+    //@Test
     public final void testSamlEngineErrorNameNull() {
         try {
             Assert.assertNull(EIDASSAMLEngine.createSAMLEngine(null));
@@ -73,7 +73,7 @@ public class SimpleBaseTest extends TestCase {
     /**
      * Test SAML engine correct name configuration with spaces.
      */
-    @Test
+    //@Test
     public final void testSamlEngineErrorNameSpaces() {
         try {
             Assert.assertNotNull(EIDASSAMLEngine.createSAMLEngine("   CONF1    "));
@@ -82,14 +82,14 @@ public class SimpleBaseTest extends TestCase {
         }
     }
 
-    @Test
+    //@Test
     public final void testSamlEngineUtils() throws EIDASSAMLEngineException{
         Assert.assertNotNull(SAMLEngineUtils.encode("TEST", SAMLEngineUtils.SHA_512));
         Assert.assertNotNull(SAMLEngineUtils.generateKeyInfo());
         Assert.assertNotNull(SAMLEngineUtils.generateNameID());
 
     }
-    @Test
+    //@Test
     public final void testX509PrincipalsUtils() {
         System.out.println("*********************************************");
         X500Name test1 = new X500Name("C=AU,ST=Victoria");

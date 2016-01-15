@@ -65,7 +65,7 @@ public class TestEIDASResponseAssertionEncryption {
         EncryptionTestUtils.initXMLTolling();
     }
 
-    @Test
+    //@Test
     public void testEIDASAuthResponseAssertionEncryptDecrypt() throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, EncryptionException, DecryptionException, UnmarshallException, MarshallException, InvalidKeySpecException, InvalidKeyException, SignatureException {
 
         log.info("CLASSPATH: " + System.getProperty("java.class.path"));
@@ -175,7 +175,7 @@ public class TestEIDASResponseAssertionEncryption {
 
     }
 
-    @Test
+    //@Test
     public void testEIDASAuthResponseAssertionEncryptDecryptWithLogHelper() throws IOException, CertificateException, KeyStoreException, NoSuchAlgorithmException, UnrecoverableKeyException, EncryptionException, DecryptionException, UnmarshallException, MarshallException, InvalidKeySpecException, InvalidKeyException, SignatureException {
 
         SAMLResponseLogHelper.setLogHelperOn(true);
