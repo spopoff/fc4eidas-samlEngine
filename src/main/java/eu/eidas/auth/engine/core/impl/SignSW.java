@@ -322,11 +322,12 @@ public class SignSW extends AbstractSigner {
             }
             if(metadataUrl!=null && !metadataUrl.isEmpty()){
                 EntityDescriptor entityDescriptor =null;
-                LOG.debug("Avant getEntityDescriptor de metadataUrl="+metadataUrl);
+                LOG.debug("Avant demande de metadataUrl="+metadataUrl);
                 try {
                     entityDescriptor = metadataProcessor.getEntityDescriptor(metadataUrl);
                 }catch(SAMLEngineException se){
                     LOG.error("ERROR : error retrieving EntityDescriptor {}", se);
+                    throw new SAMLEngineException("Erreur suite demande metadata", se);
                 }
                 if(entityDescriptor!=null && getProperties()==null || !getProperties().containsKey(EIDASValues.METADATA_CHECK_SIGNATURE.toString()) ||
                         Boolean.parseBoolean(getProperties().getProperty(EIDASValues.METADATA_CHECK_SIGNATURE.toString()))) {
@@ -538,7 +539,7 @@ public class SignSW extends AbstractSigner {
     }
 
     private static final String[] KNOWN_OPENSAML_ALGORITMS = {
-            SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA256, SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA384, SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA512,
+            SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA1,SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA256, SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA384, SignatureConstants.ALGO_ID_SIGNATURE_RSA_SHA512,
             SignatureConstants.ALGO_ID_SIGNATURE_RSA_RIPEMD160,
             SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA256, SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA384, SignatureConstants.ALGO_ID_SIGNATURE_ECDSA_SHA512,};
 
@@ -546,14 +547,17 @@ public class SignSW extends AbstractSigner {
         Arrays.sort(KNOWN_OPENSAML_ALGORITMS);
     }
     private Set<String> getAlgorithmList(String whiteList){
+        String listAlgo = "";
         Set<String> configuredAlgorithms = EIDASUtil.parseSemicolonSeparatedList(whiteList);
         Set<String> algorithms=new HashSet<String>();
             for(String algorithm:configuredAlgorithms){
                 if(Arrays.binarySearch(KNOWN_OPENSAML_ALGORITMS, algorithm)>=0){
                     algorithms.add(algorithm);
+                    listAlgo += algorithm + ";";
                     continue;
                 }
             }
+        LOG.debug("Liste algo autorise="+listAlgo);
         return algorithms;
     }
 }
