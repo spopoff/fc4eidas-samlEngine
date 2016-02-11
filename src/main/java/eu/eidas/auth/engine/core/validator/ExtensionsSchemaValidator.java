@@ -27,6 +27,8 @@ import org.opensaml.xml.validation.ValidationException;
 import org.opensaml.xml.validation.Validator;
 
 import javax.xml.namespace.QName;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The Class ExtensionsSchemaValidator.
@@ -35,7 +37,7 @@ import javax.xml.namespace.QName;
  */
 public class ExtensionsSchemaValidator implements Validator<Extensions> {
 
-
+    static final Logger LOGGER = LoggerFactory.getLogger(ExtensionsSchemaValidator.class);
     /**
      * validate the extensions.
      * 
@@ -62,6 +64,7 @@ public class ExtensionsSchemaValidator implements Validator<Extensions> {
 		final Validator<QAAAttribute> validatorQaa = new QAAAttributeSchemaValidator();
 		validatorQaa.validate((QAAAttribute) qaa.get(0));
 	} else {
+            LOGGER.warn("Extensions must contain only one element QAALevel qaa.size="+qaa.size()+" qaa.get="+qaa.get(0));
 		throw new ValidationException(
 	    "Extensions must contain only one element QAALevel.");
 	}

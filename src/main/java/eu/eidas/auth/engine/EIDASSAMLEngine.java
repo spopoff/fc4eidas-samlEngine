@@ -1561,7 +1561,8 @@ public final class EIDASSAMLEngine extends AbstractSAMLEngine {
 			LOG.trace("Status Success. Set PersonalAttributeList.");
 			authnResponse.setPersonalAttributeList(generatePersonalAttributeList(assertion));
 			authnResponse.setFail(false);
-		} else {
+                        authnResponse.setAsserts(samlResponse.getAssertions());
+                } else {
 			LOG.trace("Status Fail.");
 			authnResponse.setFail(true);
 		}
