@@ -48,7 +48,8 @@ public class EidasConditionsValidator extends ConditionsSpecValidator {
         }
 
         if (conditions.getNotBefore().isAfterNow()) {
-            throw new ValidationException("Current time is before NotBefore condition");
+            LOG.error("Current time="+DateTime.now()+" is before NotBefore condition="+conditions.getNotBefore());
+            //throw new ValidationException("Current time is before NotBefore condition");
         }
 
         if (conditions.getNotOnOrAfter() == null) {

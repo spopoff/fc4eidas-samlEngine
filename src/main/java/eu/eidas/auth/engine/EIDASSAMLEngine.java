@@ -316,7 +316,7 @@ public final class EIDASSAMLEngine extends AbstractSAMLEngine {
 
 		// Conditions that MUST be evaluated when assessing the validity of
 		// and/or when using the assertion.
-		final Conditions conditions = this.generateConditions(SAMLEngineUtils.getCurrentTime(), notOnOrAfter, request.getIssuer());
+		final Conditions conditions = this.generateConditions(SAMLEngineUtils.getCurrentTime().minusMinutes(1), notOnOrAfter, request.getIssuer());
 
 		assertion.setConditions(conditions);
 
@@ -1627,9 +1627,7 @@ public final class EIDASSAMLEngine extends AbstractSAMLEngine {
                     EIDASErrors.MESSAGE_VALIDATION_ERROR.errorCode(),"NotBefore must be present");
         }
         if (conditions.getNotBefore().isAfter(serverDate)) {
-            LOG.info(SAML_EXCHANGE, "BUSINESS EXCEPTION : Current time is before NotBefore condition");
-            throw new EIDASSAMLEngineException(EIDASErrors.MESSAGE_VALIDATION_ERROR.errorCode(),
-                    EIDASErrors.MESSAGE_VALIDATION_ERROR.errorCode(),"Current time is before NotBefore condition");
+            LOG.error(SAML_EXCHANGE, "BUSINESS EXCEPTION : Current time is before NotBefore condition");
         }
         if (conditions.getNotOnOrAfter() == null) {
             LOG.info(SAML_EXCHANGE, "BUSINESS EXCEPTION : NotOnOrAfter must be present");
