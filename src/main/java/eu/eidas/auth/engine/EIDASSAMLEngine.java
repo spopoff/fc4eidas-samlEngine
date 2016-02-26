@@ -1482,9 +1482,12 @@ public final class EIDASSAMLEngine extends AbstractSAMLEngine {
     private EIDASAuthnResponse createEidasResponse(final Response samlResponse){
         LOG.trace("Create EidasAuthResponse.");
         final EIDASAuthnResponse authnResponse = new EIDASAuthnResponse();
-
-        authnResponse.setCountry(this.getCountry(samlResponse.getSignature()
-                .getKeyInfo()));
+        String pays = this.getCountry(samlResponse.getSignature().getKeyInfo());
+        LOG.debug("Pays du certificat signature="+pays);
+        if(authnResponse.getCountry().isEmpty() && !pays.isEmpty()){
+            //horreur !!!
+            authnResponse.setCountry(pays);
+        }
 
         LOG.trace("Set ID.");
         authnResponse.setSamlId(samlResponse.getID());

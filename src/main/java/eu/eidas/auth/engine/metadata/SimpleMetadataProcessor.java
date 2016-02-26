@@ -16,6 +16,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.KeyStore;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.protocol.Protocol;
+import org.apache.commons.httpclient.protocol.ProtocolSocketFactory;
 
 
 public abstract class SimpleMetadataProcessor implements MetadataProcessorI {
@@ -45,8 +48,11 @@ public abstract class SimpleMetadataProcessor implements MetadataProcessorI {
 
     private class SimpleHttpMetadataProvider extends HTTPMetadataProvider{
         public SimpleHttpMetadataProvider(String url, int timeout) throws MetadataProviderException{
-            super(url, timeout);
+            //super(url, timeout);
+            super(null,freeTLS(), url);
+            //HTTPMetadataProvider(Timer backgroundTaskTimer, HttpClient client, String metadataURL)
         }
+        @Override
         protected void releaseMetadataDOM(XMLObject metadata){//NOSONAR
             //do not release DOM information
         }
@@ -59,7 +65,12 @@ public abstract class SimpleMetadataProcessor implements MetadataProcessorI {
         }
         return null;
     }
-
+    private HttpClient freeTLS() {
+        Protocol easyhttps = new Protocol("https", (ProtocolSocketFactory)new EasySSLProtocolSocketFactory(), 443);
+        Protocol.registerProtocol("https", easyhttps);
+        HttpClient httpsClient = new HttpClient();
+        return httpsClient;
+    }
     @Override
     public abstract SPSSODescriptor getSPSSODescriptor(String url) throws SAMLEngineException;
 
